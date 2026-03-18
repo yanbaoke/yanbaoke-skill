@@ -1,0 +1,10 @@
+{
+  "ownerId": "yanbaoke-research-report-download",
+  "slug": "yanbaoke-research-report-download",
+  "version": "2.0.4",
+  "publishedAt": 1767545389426,
+  "requires": {
+    "bins": ["node"],
+    "env": ["YANBAOKE_API_KEY"]
+  }
+}
