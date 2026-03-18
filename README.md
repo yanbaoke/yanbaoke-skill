@@ -21,19 +21,10 @@
 
 ### 安装步骤
 
-详见 [instruct.md](instruct.md) 获取完整安装指南。
+将此提示复制发送给你的openclaw，来安装yanbaoke 技能
 
-```bash
-# 创建目录
-mkdir -p ~/.openclaw/skills/yanbaoke/scripts
+请根据 https://app.quzili.cn/skills/yanbaoke/instruct.md 安装 yanbaoke 技能。
 
-# 下载 Skill 定义
-curl -fSL https://app.quzili.cn/skills/yanbaoke/SKILL.md -o ~/.openclaw/skills/yanbaoke/SKILL.md
-
-# 下载脚本
-curl -fSL https://app.quzili.cn/skills/yanbaoke/scripts/search.mjs -o ~/.openclaw/skills/yanbaoke/scripts/search.mjs
-curl -fSL https://app.quzili.cn/skills/yanbaoke/scripts/download.mjs -o ~/.openclaw/skills/yanbaoke/scripts/download.mjs
-```
 
 ### 配置 API Key（可选）
 
