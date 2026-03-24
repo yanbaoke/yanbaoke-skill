@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { VERSION, SKILL_ID } from "./version.mjs";
+
 /**
  * Research Report Download Script
  *
@@ -67,7 +69,9 @@ if (!apiKey) {
 try {
   const resp = await fetch(`https://api.yanbaoke.cn/skills/report_download/${uuid}`, {
     headers: {
-      "Authorization": `Bearer ${apiKey}`
+      "Authorization": `Bearer ${apiKey}`,
+      "X-Skill-Version": VERSION,
+      "X-Skill-ID": SKILL_ID,
     }
   });
 

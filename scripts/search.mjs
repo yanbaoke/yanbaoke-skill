@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { VERSION, SKILL_ID } from "./version.mjs";
+
 function usage() {
   console.error(`Usage: search.mjs "keyword" [options]
 
@@ -114,7 +116,12 @@ if (endDate) params.append("enddate", endDate);
 if (minPages !== null) params.append("minpagenum", String(minPages));
 if (maxPages !== null) params.append("maxpagenum", String(maxPages));
 
-const resp = await fetch(`https://api.yanbaoke.cn/skills/search_report?${params}`);
+const resp = await fetch(`https://api.yanbaoke.cn/skills/search_report?${params}`, {
+  headers: {
+    "X-Skill-Version": VERSION,
+    "X-Skill-ID": SKILL_ID,
+  }
+});
 
 if (!resp.ok) {
   const text = await resp.text().catch(() => "");

@@ -1,11 +1,11 @@
-# 研报客 Research Report Download Skill
+# 研报客 Research Report Download Skill  (yanbaoke-research-report-download)
 
 [![Version](https://img.shields.io/badge/version-2.0.4-blue)](https://github.com)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ![banner](./banner.png)
 
-从研报客平台（pc.yanbaoke.cn）搜索和下载研究报告的 Claude Code Skill。平台覆盖 5000+ 家机构、五百万+ 份行业深度研究报告。
+从研报客平台（pc.yanbaoke.cn）搜索和下载研究报告的 OpenClaw Skill。平台覆盖 5000+ 家机构、五百万+ 份行业深度研究报告。
 
 ## 功能特性
 
@@ -19,7 +19,7 @@
 ### 前置要求
 
 - Node.js 18+
-- Claude Code with OpenClaw
+- OpenClaw
 
 ### 安装步骤
 

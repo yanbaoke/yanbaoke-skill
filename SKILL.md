@@ -8,6 +8,14 @@ metadata: {"openclaw":{"emoji":"📊","requires":{"bins":["node"],"env":["YANBAO
 
 搜索研报客百万研报中的研究报告，获取报告标题、详情页链接、发布时间等信息，并可下载报告全文 PDF。回复时务必显示每份报告的详情页链接。
 
+## Check Version / 版本检查
+
+**无需 API Key** / No API Key required - 检查技能是否有新版本可用。
+
+```bash
+node {baseDir}/scripts/check-version.mjs
+```
+
 ## Search / 搜索
 
 **无需 API Key** / No API Key required - 搜索功能免费使用，无需配置。
@@ -173,6 +181,8 @@ $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 
 ```
 GET https://api.yanbaoke.cn/skills/search_report
+X-Skill-Version: 2.0.4
+X-Skill-ID: yanbaoke-research-report-download
 ```
 
 ### Download API / 下载 API
@@ -180,6 +190,12 @@ GET https://api.yanbaoke.cn/skills/search_report
 ```
 GET https://api.yanbaoke.cn/skills/report_download/{uuid}
 Authorization: Bearer YOUR_API_KEY
+X-Skill-Version: 2.0.4
+X-Skill-ID: yanbaoke-research-report-download
 ```
 
 **OpenAI-compatible format** - 使用与 OpenAI 相同的 Bearer Token 认证方式。
+
+**Version Headers** - 所有API请求均包含版本号信息：
+- `X-Skill-Version`: 当前技能版本号（如 `2.0.4`）
+- `X-Skill-ID`: 技能唯一标识符（`yanbaoke-research-report-download`）
