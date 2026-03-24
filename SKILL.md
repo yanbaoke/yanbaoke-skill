@@ -42,6 +42,10 @@ node {baseDir}/scripts/download.mjs <uuid>
 # 直接传入 API Key
 node {baseDir}/scripts/download.mjs <uuid> "sk-your-api-key"
 
+# 指定下载格式
+node {baseDir}/scripts/download.mjs <uuid> "sk-your-api-key" --format=doc
+node {baseDir}/scripts/download.mjs <uuid> "sk-your-api-key" -f ppt
+
 # 示例
 node {baseDir}/scripts/download.mjs "abc123-def456-ghi789"
 ```
@@ -76,6 +80,7 @@ node {baseDir}/scripts/download.mjs "abc123-def456-ghi789"
 |-------------------|-------------------|
 | `uuid` | Report UUID (from search results) / 报告 UUID（从搜索结果获取） |
 | `api_key` | API key for authentication (optional, uses env var) / API 密钥（可选，默认使用环境变量） |
+| `-f, --format <format>` | Document format: `pdf` (default), `doc`, or `ppt` / 文档格式：pdf（默认）、doc 或 ppt |
 
 ## Example Output / 输出示例
 
@@ -118,13 +123,20 @@ Total: 156 reports
 ```bash
 $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 
-## Report Download Ready
+## Report Download Link
 
 **Title**: 中国AI大模型技术发展研究报告2024
+**Format**: PDF
 **Filename**: 中国AI大模型技术发展研究报告2024.pdf
 **Expires in**: 60 seconds
 
+**Download URL** (click to download):
+https://files.quzili.cn/...
+
+---
+
 *Note: This download link expires in 60 seconds.*
+```
 
 ## Response Fields / 返回字段
 
@@ -138,6 +150,7 @@ $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 | `pagenum` | Number of pages / 报告页数 |
 | `org_name` | Publisher institution name / 发布机构名称 |
 | `rtype_name` | Report type (e.g., Industry Research, Company Research, Macro Strategy) / 报告类型 |
+| `formats` | Available formats (e.g., `["pdf"]`, `["pdf", "doc"]`, `["pdf", "doc", "ppt"]`) / 可用格式列表 |
 
 **IMPORTANT**: 向用户显示结果时，显示 url 字段作为报告详情页链接
 
@@ -147,6 +160,7 @@ $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 |-------|-------------|----------|
 | `title` | Report title / 报告标题 | 报告标题 |
 | `filename` | Original filename / 原始文件名 | 原始文件名 |
+| `format` | Document format (pdf, doc, or ppt) / 文档格式 | 文档格式 |
 | `expires_in` | Link validity period in seconds / 链接有效期（秒） | 链接有效期 |
 
 ## Workflow / 工作流程
@@ -160,6 +174,7 @@ $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 
 | Code | Description | 说明 |
 |------|-------------|------|
+| 400 | Format not available | 请求的格式不可用，请检查搜索结果中的 `formats` 字段 |
 | 401 | Invalid or missing API Key | API Key 无效或缺失，请从 https://pc.yanbaoke.cn/openclaw 获取 |
 | 402 | Insufficient balance | 豆子不足，请在 https://pc.yanbaoke.cn/openclaw 充值 |
 | 404 | Report not found | 报告不存在 |
@@ -174,6 +189,7 @@ $ node {baseDir}/scripts/download.mjs "123abc456-def789-ghi012"
 - **搜索无需 API Key，下载需要 API Key**  获取地址[https://pc.yanbaoke.cn/openclaw](https://pc.yanbaoke.cn/openclaw)
 - 每份报告仅收费一次，已购买报告可重复下载
 - 下载需要消耗豆（每份报告 10 个豆）
+- **格式说明**：默认下载 PDF 格式，部分报告支持 DOC 或 PPT 格式。搜索结果中的 `formats` 字段显示该报告支持的格式列表
 
 ## API Reference / API 参考
 
@@ -188,11 +204,14 @@ X-Skill-ID: yanbaoke-research-report-download
 ### Download API / 下载 API
 
 ```
-GET https://api.yanbaoke.cn/skills/report_download/{uuid}
+GET https://api.yanbaoke.cn/skills/report_download/{uuid}?format={format}
 Authorization: Bearer YOUR_API_KEY
 X-Skill-Version: 2.0.4
 X-Skill-ID: yanbaoke-research-report-download
 ```
+
+**Query Parameters / 查询参数:**
+- `format` (optional): Document format - `pdf` (default), `doc`, or `ppt` / 文档格式（默认 pdf）
 
 **OpenAI-compatible format** - 使用与 OpenAI 相同的 Bearer Token 认证方式。
 

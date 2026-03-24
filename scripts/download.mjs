@@ -26,6 +26,7 @@ Arguments:
 
 Options:
   -h, --help        Show this help message
+  -f, --format      Document format: pdf (default), doc, or ppt
 
 Environment Variables:
   YANBAOKE_API_KEY      Default API key for authentication
@@ -33,6 +34,8 @@ Environment Variables:
 Examples:
   node {baseDir}/scripts/download.mjs "abc123-def456"
   node {baseDir}/scripts/download.mjs "abc123-def456" "sk-your-api-key"
+  node {baseDir}/scripts/download.mjs "abc123-def456" "sk-your-api-key" --format=doc
+  node {baseDir}/scripts/download.mjs "abc123-def456" "" -f ppt
 
 Note: You can get your API key from https://pc.yanbaoke.cn/openclaw`);
   process.exit(2);
@@ -44,14 +47,33 @@ if (args.length === 0 || args.includes("-h") || args.includes("--help")) usage()
 
 const uuid = args[0];
 let apiKey = "";
+let format = "pdf";  // 默认格式为 pdf
 
 // Parse arguments
 for (let i = 1; i < args.length; i++) {
   const arg = args[i];
   if (!arg.startsWith("-")) {
     apiKey = arg;
+  } else if (arg === "-f" || arg === "--format") {
+    // 下一个参数是格式值
+    format = args[i + 1] || "pdf";
+    i++;  // 跳过下一个参数
+  } else if (arg.startsWith("--format=")) {
+    // --format=value 格式
+    format = arg.split("=")[1] || "pdf";
+  } else if (arg.startsWith("-f=")) {
+    // -f=value 格式
+    format = arg.split("=")[1] || "pdf";
   }
 }
+
+// 验证格式参数
+const validFormats = ["pdf", "doc", "ppt"];
+if (!validFormats.includes(format.toLowerCase())) {
+  console.error(`Error: Invalid format "${format}". Must be one of: pdf, doc, ppt`);
+  process.exit(1);
+}
+format = format.toLowerCase();
 
 apiKey = apiKey || process.env.YANBAOKE_API_KEY || "";
 
@@ -67,7 +89,10 @@ if (!apiKey) {
 }
 
 try {
-  const resp = await fetch(`https://api.yanbaoke.cn/skills/report_download/${uuid}`, {
+  // 构建下载 URL，包含格式参数
+  const downloadUrl = `https://api.yanbaoke.cn/skills/report_download/${uuid}?format=${format}`;
+
+  const resp = await fetch(downloadUrl, {
     headers: {
       "Authorization": `Bearer ${apiKey}`,
       "X-Skill-Version": VERSION,
@@ -95,11 +120,12 @@ try {
     process.exit(1);
   }
 
-  const { download_url, title, filename } = report;
+  const { download_url, title, filename, format: reportFormat = format } = report;
 
   // 显示下载链接
   console.log(`## Report Download Link\n`);
   console.log(`**Title**: ${title}`);
+  console.log(`**Format**: ${reportFormat.toUpperCase()}`);
   console.log(`**Filename**: ${filename}`);
   console.log(`**Expires in**: ${report.expires_in ?? 60} seconds\n`);
   console.log(`**Download URL** (click to download):`);
