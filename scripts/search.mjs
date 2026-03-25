@@ -6,7 +6,7 @@ function usage() {
   console.error(`Usage: search.mjs "keyword" [options]
 
 Options:
-  -n <count>         Number of results (default: 10, max: 100)
+  -n <count>         Number of results (default: 100, max: 500)
   --type <type>      Search type: title or content (default: title)
   --org <org>        Publisher/Institution (comma-separated for multiple)
   --report-type <type> Report type (comma-separated for multiple)
@@ -23,7 +23,7 @@ const args = process.argv.slice(2);
 if (args.length === 0 || args[0] === "-h" || args[0] === "--help") usage();
 
 const keyword = args[0];
-let size = 10;
+let size = 100;
 let searchType = "title";
 let org = null;
 let reportType = null;
@@ -104,7 +104,7 @@ for (let i = 1; i < args.length; i++) {
 
 const params = new URLSearchParams({
   keyword: keyword,
-  size: String(Math.max(1, Math.min(size, 100))),
+  size: String(Math.max(1, Math.min(size, 500))),
   search_type: searchType,
 });
 
@@ -152,12 +152,14 @@ for (const report of data) {
   const pagenum = report?.pagenum ?? 0;
   const orgName = report?.org_name ?? "";
   const rtypeName = report?.rtype_name ?? "";
+  const content = report?.content ?? "";
 
   console.log(`- **${title}**`);
   if (orgName) console.log(`  Publisher: ${orgName}`);
   if (rtypeName) console.log(`  Type: ${rtypeName}`);
   if (pagenum) console.log(`  Pages: ${pagenum}`);
   if (time) console.log(`  Date: ${time}`);
+  if (content) console.log(`  Content: ${content}`);
   console.log(`  ${url}`);
   console.log();
 }

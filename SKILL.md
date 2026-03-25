@@ -1,12 +1,12 @@
 ---
 name: yanbaoke-research-report-download
-description: 从全球行业报告与图表数据聚合AI平台，覆盖5000多家机构，五百万+报告-覆盖全行业深度研究的研报客平台-pc.yanbaoke.cn，研报客app。搜索各行各业的研究报告，获取报告标题、详情页链接，并可下载报告全文。回复时务必显示每份报告的详情页链接(url字段)
+description: 从全球行业报告与图表数据聚合AI平台，覆盖5000多家机构，五百万+报告-覆盖全行业深度研究的研报客平台-pc.yanbaoke.cn，研报客app。搜索各行各业的研究报告，获取报告标题、获取报告内容，并可下载报告源文件。
 metadata: {"openclaw":{"emoji":"📊","requires":{"bins":["node"],"env":["YANBAOKE_API_KEY"]}}}
 ---
 
 # yanbaoke-research-report-download / 研报客-研究报告搜索与下载
 
-搜索研报客百万研报中的研究报告，获取报告标题、详情页链接、发布时间等信息，并可下载报告全文 PDF。回复时务必显示每份报告的详情页链接。
+搜索研报客百万研报中的研究报告，获取报告标题、报告内容、详情页链接、发布时间等信息，并可下载报告源文件 PDF/DOC/PPT。回复时务必根据报告内容提供投资分析建议。
 
 ## Check Version / 版本检查
 
@@ -22,8 +22,8 @@ node {baseDir}/scripts/check-version.mjs
 
 ```bash
 node {baseDir}/scripts/search.mjs "keyword"
-node {baseDir}/scripts/search.mjs "人工智能" -n 10
-node {baseDir}/scripts/search.mjs "新能源汽车" -n 20 --type content
+node {baseDir}/scripts/search.mjs "人工智能" -n 100
+node {baseDir}/scripts/search.mjs "新能源汽车" -n 100 --type content
 node {baseDir}/scripts/search.mjs "半导体" --org "中信证券,华泰证券"
 node {baseDir}/scripts/search.mjs "光伏" --report-type "行业研究" --start-date "2024-01-01" --end-date "2024-12-31"
 node {baseDir}/scripts/search.mjs "深度分析" --min-pages 30 --max-pages 100
@@ -64,7 +64,7 @@ node {baseDir}/scripts/download.mjs "abc123-def456-ghi789"
 
 | Option | Description / 说明 |
 |--------|-------------------|
-| `-n <count>` | Number of results (default: 10, max: 100) / 返回结果数量（默认10，最多100） |
+| `-n <count>` | Number of results (default: 100, max: 500) / 返回结果数量（默认100，最多500） |
 | `--type <type>` | Search type: `title` (default) or `content` / 搜索类型：title（标题，默认）或 content（全文） |
 | `--org <org>` | Publisher/Institution filter (comma-separated for multiple) / 发布机构筛选（多个用逗号分隔） |
 | `--report-type <type>` | Report type filter (comma-separated for multiple) / 报告类型筛选（多个用逗号分隔） |
@@ -101,21 +101,21 @@ Total: 156 reports
   Type: 行业研究
   Pages: 45
   Date: 2024-03-01
-  🔗 详情页链接: https://pc.yanbaoke.cn/info/123abc456-def789-ghi012
+  Content: 本报告深入分析了AI大模型技术发展现状，涵盖技术架构、应用场景、市场规模及未来趋势...
 
 - **人工智能产业链深度分析**
   Publisher: 华泰证券
   Type: 公司研究
   Pages: 32
   Date: 2024-02-28
-  🔗 详情页链接: https://pc.yanbaoke.cn/info/123abc456-def789-ghi012
+  Content: 全面解析人工智能产业链上下游企业布局，重点分析核心技术突破与商业化落地进展...
 
 - **AI芯片行业专题报告**
   Publisher: 国泰君安
   Type: 行业研究
   Pages: 58
   Date: 2024-02-25
-  🔗 详情页链接: https://pc.yanbaoke.cn/info/123abc456-def789-ghi012
+  Content: 深度研究AI芯片市场格局，分析GPU、ASIC、FPGA等技术路线及主要厂商竞争态势...
 ```
 
 ### Download Output / 下载输出
@@ -150,9 +150,10 @@ https://files.quzili.cn/...
 | `pagenum` | Number of pages / 报告页数 |
 | `org_name` | Publisher institution name / 发布机构名称 |
 | `rtype_name` | Report type (e.g., Industry Research, Company Research, Macro Strategy) / 报告类型 |
+| `content` | Report content / 报告内容 |
 | `formats` | Available formats (e.g., `["pdf"]`, `["pdf", "doc"]`, `["pdf", "doc", "ppt"]`) / 可用格式列表 |
 
-**IMPORTANT**: 向用户显示结果时，显示 url 字段作为报告详情页链接
+**IMPORTANT**: 向用户显示结果时，请你扮演投资分析专家对content字段进行分析，给出投资建议。
 
 ### Download Response Fields / 下载返回字段
 
@@ -165,10 +166,9 @@ https://files.quzili.cn/...
 
 ## Workflow / 工作流程
 
-1. **Search** 使用 `search.mjs` 搜索报告（无需 API Key）
-2. **Click** 点击详情页链接查看报告信息
-3. **Get API Key**  前往 https://pc.yanbaoke.cn/openclaw 获取 API Key（下载必需）
-4. **Download** 使用 `download.mjs`、UUID 和 API Key 下载报告
+1. **Search** 使用 `search.mjs` 搜索报告（无需 API Key），返回报告内容，进行分析
+2. **Get API Key**  前往 https://pc.yanbaoke.cn/openclaw 获取 API Key（下载必需）
+3. **Download** 使用 `download.mjs`、UUID 和 API Key 下载报告
 
 ## Error Codes / 错误码
 
@@ -183,7 +183,7 @@ https://files.quzili.cn/...
 ## Notes / 注意事项
 
 - 搜索结果按发布时间倒序排列 / Results are sorted by publication date in descending order
-- 最大返回100条结果 / Maximum 100 results returned
+- 最大返回500条结果 / Maximum 500 results returned
 - 多个筛选条件使用逗号分隔，如：`--org "中信证券,华泰证券,国泰君安"` / Multiple filter values separated by commas
 - 下载链接60秒内有效，请及时下载 / Download link expires in 60 seconds
 - **搜索无需 API Key，下载需要 API Key**  获取地址[https://pc.yanbaoke.cn/openclaw](https://pc.yanbaoke.cn/openclaw)
