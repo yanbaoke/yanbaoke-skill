@@ -171,7 +171,7 @@ https://files.quzili.cn/...
 |------|-------------|------|
 | 400 | Format not available | 请求的格式不可用，请检查搜索结果中的 `formats` 字段 |
 | 401 | Invalid or missing API Key | API Key 无效或缺失，请从 https://pc.yanbaoke.cn/openclaw 获取 |
-| 402 | Insufficient balance | 豆子不足，请在 https://pc.yanbaoke.cn 充值（每份报告 10 个豆） |
+| 402 | Insufficient balance | 豆子不足，请前往充值: https://pc.yanbaoke.cn/pay 或者研报客app里面充值(每份报告消耗10 个豆) |
 | 404 | Report not found | 报告不存在，请检查 UUID 是否正确 |
 | 429 | Rate limit exceeded | 请求过于频繁，请稍后再试 |
 | 500 | Server error | 服务器错误，请稍后重试或联系客服 |
