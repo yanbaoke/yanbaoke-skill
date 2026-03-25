@@ -104,7 +104,22 @@ try {
 
   if (!resp.ok) {
     const errorMsg = body?.error?.message ?? body?.message ?? `HTTP ${resp.status}`;
-    console.error(`Error: ${errorMsg}`);
+    console.error(`❌ Download failed: ${errorMsg}`);
+
+    // 友好的错误提示
+    const suggestions = {
+      400: `\n💡 该报告暂不支持 ${format.toUpperCase()} 格式。`,
+      401: `\n🔑 获取 API Key: https://pc.yanbaoke.cn/openclaw`,
+      402: `\n💰 豆子不足，请前往充值: https://pc.yanbaoke.cn/(每份报告 10 个豆)`,
+      404: `\n🔍 报告不存在，请检查 UUID 是否正确。您可以先运行搜索命令获取正确的 UUID。`,
+      429: `\n⏳ 请求过于频繁，请稍后再试。`,
+    };
+
+    const suggestion = suggestions[resp.status];
+    if (suggestion) {
+      console.error(suggestion);
+    }
+
     process.exit(1);
   }
 

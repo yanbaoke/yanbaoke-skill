@@ -52,9 +52,9 @@ node {baseDir}/scripts/download.mjs "abc123-def456-ghi789"
 
 ### Download Pricing / 下载费用
 
-| User Type | First Download | Re-download | 用户类型 | 首次下载 | 再次下载 |
-|-----------|----------------|-------------|---------|---------|---------|
-| User | 10  beans | User | 用户 | 10 个豆 | 免费 |
+| User Type | First Download | Re-download |
+|-----------|----------------|-------------|
+| 用户 User | 10 个豆 10 beans | 免费 Free |
 
 **说明**: 每份报告仅收费一次，再次下载免费。
 
@@ -93,6 +93,7 @@ $ node {baseDir}/scripts/search.mjs "人工智能" -n 3
 Total: 156 reports
 
 ---
+## 投资建议
 
 ## Reports
 
@@ -144,8 +145,9 @@ https://files.quzili.cn/...
 
 | Field | Description / 说明 |
 |-------|-------------------|
+| `uuid` | Report unique identifier (required for download) / 报告唯一标识符（下载时需要） |
 | `title` | Report title / 报告标题 |
-| `url` | Report detail page link / 报告详情页链接
+| `url` | Report detail page link / 报告详情页链接 |
 | `time` | Publication date (YYYY-MM-DD) / 发布日期 |
 | `pagenum` | Number of pages / 报告页数 |
 | `org_name` | Publisher institution name / 发布机构名称 |
@@ -176,9 +178,10 @@ https://files.quzili.cn/...
 |------|-------------|------|
 | 400 | Format not available | 请求的格式不可用，请检查搜索结果中的 `formats` 字段 |
 | 401 | Invalid or missing API Key | API Key 无效或缺失，请从 https://pc.yanbaoke.cn/openclaw 获取 |
-| 402 | Insufficient balance | 豆子不足，请在 https://pc.yanbaoke.cn/openclaw 充值 |
-| 404 | Report not found | 报告不存在 |
-| 429 | Rate limit exceeded | 请求过于频繁 |
+| 402 | Insufficient balance | 豆子不足，请在 https://pc.yanbaoke.cn 充值（每份报告 10 个豆） |
+| 404 | Report not found | 报告不存在，请检查 UUID 是否正确 |
+| 429 | Rate limit exceeded | 请求过于频繁，请稍后再试 |
+| 500 | Server error | 服务器错误，请稍后重试或联系客服 |
 
 ## Notes / 注意事项
 

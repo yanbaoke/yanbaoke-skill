@@ -160,6 +160,7 @@ for (const report of data) {
   if (pagenum) console.log(`  Pages: ${pagenum}`);
   if (time) console.log(`  Date: ${time}`);
   if (content) console.log(`  Content: ${content}`);
+  if (uuid) console.log(`  UUID: ${uuid}`);
   console.log(`  ${url}`);
   console.log();
 }
