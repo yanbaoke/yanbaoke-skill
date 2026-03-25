@@ -1,7 +1,5 @@
 # 研报客 Research Report Download Skill  (yanbaoke-research-report-download)
 
-[![Version](https://img.shields.io/badge/version-2.0.6-blue)](https://github.com)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ![banner](./banner.png)
 
