@@ -1,6 +1,6 @@
 # 研报客 Research Report Download Skill  (yanbaoke-research-report-download)
 
-[![Version](https://img.shields.io/badge/version-2.0.4-blue)](https://github.com)
+[![Version](https://img.shields.io/badge/version-2.0.6-blue)](https://github.com)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ![banner](./banner.png)
@@ -9,10 +9,12 @@
 
 ## 功能特性
 
-- **搜索研报** - 无需 API Key，免费搜索百万级研究报告
-- **下载报告** - 获取完整 PDF 研究报告（需要 API Key）
+- **搜索研报** - 无需 API Key，免费搜索百万级研究报告，获取报告 UUID 用于下载
+- **下载报告** - 支持 PDF/DOC/PPT 格式下载（需要 API Key）
 - **多维度筛选** - 支持按机构、报告类型、股票、日期范围、页数等条件筛选
+- **投资建议** - AI 驱动的投资分析建议
 - **双语支持** - 中文界面和文档，便于国内用户使用
+- **版本检查** - 自动检测技能更新
 
 ## 安装
 
@@ -59,29 +61,40 @@ node ~/.openclaw/skills/yanbaoke/scripts/search.mjs "光伏" --start-date "2024-
 
 # 页数筛选
 node ~/.openclaw/skills/yanbaoke/scripts/search.mjs "深度分析" --min-pages 30 --max-pages 100
+
+# 股票筛选
+node ~/.openclaw/skills/yanbaoke/scripts/search.mjs "比亚迪" --stock "比亚迪"
 ```
 
 ### 下载报告
 
 ```bash
-# 使用环境变量中的 API Key
+# 使用环境变量中的 API Key（默认 PDF 格式）
 node ~/.openclaw/skills/yanbaoke/scripts/download.mjs <uuid>
 
 # 直接传入 API Key
 node ~/.openclaw/skills/yanbaoke/scripts/download.mjs <uuid> "sk-your-api-key"
+
+# 指定下载格式
+node ~/.openclaw/skills/yanbaoke/scripts/download.mjs <uuid> "sk-your-api-key" --format=doc
+node ~/.openclaw/skills/yanbaoke/scripts/download.mjs <uuid> "sk-your-api-key" -f ppt
 ```
 
 ## 项目结构
 
 ```
 yanbaoke-skill/
-├── SKILL.md          # Skill 定义和文档
-├── README.md         # 项目说明
-├── instruct.md       # 安装指南
-├── _meta.json        # Skill 元数据
+├── SKILL.md              # Skill 定义和文档
+├── README.md             # 项目说明
+├── instruct.md           # 安装指南
+├── _meta.json            # Skill 元数据
+├── banner.png            # 项目横幅
+├── .gitignore            # Git 忽略规则
 └── scripts/
-    ├── search.mjs    # 搜索脚本
-    └── download.mjs  # 下载脚本
+    ├── version.mjs       # 版本配置
+    ├── search.mjs        # 搜索脚本
+    ├── download.mjs      # 下载脚本
+    └── check-version.mjs # 版本检查脚本
 ```
 
 ## API 参考
@@ -90,14 +103,20 @@ yanbaoke-skill/
 
 ```
 GET https://api.yanbaoke.cn/skills/search_report
+X-Skill-Version: 2.0.6
+X-Skill-ID: yanbaoke-research-report-download
 ```
 
 ### 下载 API
 
 ```
-GET https://api.yanbaoke.cn/skills/report_download/{uuid}
+GET https://api.yanbaoke.cn/skills/report_download/{uuid}?format={format}
 Authorization: Bearer YOUR_API_KEY
+X-Skill-Version: 2.0.6
+X-Skill-ID: yanbaoke-research-report-download
 ```
+
+**格式参数**: `pdf`（默认）、`doc`、`ppt`
 
 ## 定价
 

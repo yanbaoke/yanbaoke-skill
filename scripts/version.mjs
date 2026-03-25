@@ -5,7 +5,7 @@
  * Version management - keep in sync with _meta.json
  */
 
-export const VERSION = "2.0.6";
+export const VERSION = "2.1.0";
 
 // API 版本检查接口
 export const VERSION_CHECK_URL = "https://api.yanbaoke.cn/skills/version";
