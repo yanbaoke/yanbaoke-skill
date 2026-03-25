@@ -8,13 +8,6 @@ metadata: {"openclaw":{"emoji":"📊","requires":{"bins":["node"],"env":["YANBAO
 
 搜索研报客百万研报中的研究报告，获取报告标题、报告内容、详情页链接、发布时间等信息，并可下载报告源文件 PDF/DOC/PPT。回复时务必根据报告内容提供投资分析建议。
 
-## Check Version / 版本检查
-
-**无需 API Key** / No API Key required - 检查技能是否有新版本可用。
-
-```bash
-node {baseDir}/scripts/check-version.mjs
-```
 
 ## Search / 搜索
 
